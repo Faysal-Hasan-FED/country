@@ -1,6 +1,8 @@
 let error = document.getElementById("error");
 const cardContainer = document.getElementById("card-container");
 const detailsContainer = document.getElementById("details-container");
+const spinner = document.getElementById("spinner");
+spinner.style.display ='none';
 
 
 document.getElementById("search-button").addEventListener('click',function(){
@@ -10,6 +12,9 @@ document.getElementById("search-button").addEventListener('click',function(){
     // result repeat na hoar jnne 
     cardContainer.textContent='';
     detailsContainer.textContent='';
+
+    // spinner 
+    spinner.style.display = 'block';
 
 
     // error hnadling 
@@ -21,13 +26,19 @@ document.getElementById("search-button").addEventListener('click',function(){
    
     fetch(url)
     .then(res=>res.json())
-    .then(data=>showData(data))
+    .then(data=>setTimeout(
+
+        ()=>{
+            showData(data);
+        },3000
+    ))
    
     .finally(()=>inputField.value ='');
   
 })
 
 function showData(countries){
+    spinner.style.display = 'none';
   
     if(countries.status===404){
         error.innerText ='no result found';
